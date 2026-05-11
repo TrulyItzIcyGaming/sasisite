@@ -1,0 +1,43 @@
+backend:
+  name: github
+  repo: TrulyItzIcyGaming/sasisite
+  branch: main
+  base_url: /api
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "website_data"
+    label: "Website Content"
+    files:
+      - label: "Site Data"
+        name: "content"
+        file: "data/content.json" # Where the data is saved
+        description: "Edit Music, Tours, and Gallery"
+        extension: "json"
+        format: "json"
+        fields:
+          - label: "Music"
+            name: "music"
+            widget: "list"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Note", name: "note", widget: "string"}
+              - {label: "Background Color or Image", name: "background", widget: "string"}
+          
+          - label: "Tours"
+            name: "tours"
+            widget: "list"
+            fields:
+              - {label: "Date", name: "date", widget: "string"}
+              - {label: "City", name: "city", widget: "string"}
+              - {label: "Venue", name: "venue", widget: "string"}
+              - {label: "Ticket Status", name: "ticketStatus", widget: "string"}
+          
+          - label: "Gallery"
+            name: "gallery"
+            widget: "list"
+            fields:
+              - {label: "Height (e.g., 300px)", name: "height", widget: "string"}
+              - {label: "Image URL", name: "url", widget: "string"}

@@ -1,0 +1,60 @@
+{
+  "music": [
+    {
+      "title": "FRAGMENTS",
+      "note": "It felt like breaking.",
+      "background": "#222"
+    },
+    {
+      "title": "SILVER NOISE",
+      "note": "Midnight sessions.",
+      "background": "#1a1a1a"
+    }
+  ],
+  "tours": [
+    {
+      "date": "NOV 12",
+      "city": "LONDON, UK",
+      "venue": "THE UNDERWORLD",
+      "ticketStatus": "SOLD OUT"
+    },
+    {
+      "date": "NOV 14",
+      "city": "BERLIN, DE",
+      "venue": "SO36",
+      "ticketStatus": "TICKETS"
+    },
+    {
+      "date": "NOV 16",
+      "city": "PARIS, FR",
+      "venue": "LA MACHINE",
+      "ticketStatus": "TICKETS"
+    }
+  ],
+  "gallery": [
+    {
+      "height": "300px",
+      "url": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=2667&auto=format&fit=crop"
+    },
+    {
+      "height": "450px",
+      "url": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=2000&auto=format&fit=crop"
+    },
+    {
+      "height": "250px",
+      "url": "https://images.unsplash.com/photo-1501612780327-45045538702b?q=80&w=2000&auto=format&fit=crop"
+    },
+    {
+      "height": "500px",
+      "url": "https://images.unsplash.com/photo-1470229722913-7c092dbbaf15?q=80&w=2000&auto=format&fit=crop"
+    },
+    {
+      "height": "300px",
+      "url": "https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=2000&auto=format&fit=crop"
+    },
+    {
+      "height": "400px",
+      "url": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?q=80&w=2000&auto=format&fit=crop"
+    }
+  ]
+}
