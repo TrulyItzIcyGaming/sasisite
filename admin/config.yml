@@ -2,7 +2,7 @@ backend:
   name: github
   repo: TrulyItzIcyGaming/sasisite
   branch: main
-  base_url: /api
+  base_url: "https://sasisite.vercel.app/api"
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"

@@ -29,7 +29,12 @@ export default async function handler(req, res) {
           window.removeEventListener("message", receiveMessage, false);
         }
         window.addEventListener("message", receiveMessage, false);
-        window.opener.postMessage("authorizing:${provider}", "*");
+        
+        if (window.opener) {
+            window.opener.postMessage("authorizing:${provider}", "*");
+        } else {
+            document.write("Login successful! However, the parent window was closed. Please close this window and try again.");
+        }
       </script>
     `;
     
