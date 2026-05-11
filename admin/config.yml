@@ -1,8 +1,6 @@
 backend:
-  name: github
-  repo: TrulyItzIcyGaming/sasisite
-  branch: main
-  base_url: "https://sasisite.vercel.app/api"
+  name: git-gateway
+  branch: main # Branch to update (change to 'master' if needed)
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
