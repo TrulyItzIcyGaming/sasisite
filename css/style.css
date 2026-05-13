@@ -1,12 +1,12 @@
 :root {
-    --bg-dark: #0a0a0a;
-    --charcoal: #1f1f1f;
-    --silver: #b3b3b3;
-    --faded-white: #e0e0e0;
-    --washed-blue: #3b4252;
-    --muted-purple: #4c4155;
-    --soft-red: #8f3b3b;
-    --accent: #5e81ac; /* neonish blue glow */
+    --bg-dark: #f8f9fa; /* Bright, clean gallery white */
+    --charcoal: #e9ecef; /* Light structural shapes */
+    --silver: #6c757d; /* Medium cool grey for subtle text */
+    --faded-white: #121212; /* Core text now dark for contrast */
+    --washed-blue: #dee2e6; /* Soft architectural borders */
+    --muted-purple: #f1f3f5; /* Off-white block shadows */
+    --soft-red: #ff3366; /* Vibrant abstract pink/red */
+    --accent: #00d2ff; /* Electric cyan contrast */
     --font-heading: 'Syne', sans-serif;
     --font-body: 'Inter', sans-serif;
     --font-hand: 'Nothing You Could Do', cursive;
@@ -47,13 +47,24 @@ body {
     left: 0;
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(94, 129, 172, 0.15) 0%, rgba(10, 10, 10, 0) 70%);
+    background: radial-gradient(circle, rgba(0, 210, 255, 0.15) 0%, rgba(248, 249, 250, 0) 70%);
     border-radius: 50%;
     pointer-events: none;
     transform: translate(-50%, -50%);
     z-index: 1;
-    mix-blend-mode: screen;
+    mix-blend-mode: multiply;
     transition: width 0.3s, height 0.3s;
+}
+
+/* Ambient Particles Canvas */
+#particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    pointer-events: none;
 }
 
 /* Navigation */
@@ -153,6 +164,7 @@ nav {
     font-weight: 700;
     letter-spacing: -1px;
     margin-bottom: 0.5rem;
+    text-align: left;
 }
 
 .exhibit-header p {
@@ -162,15 +174,17 @@ nav {
 
 /* Home Section */
 #home {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     text-align: center;
 }
 
 .hero-container {
     position: relative;
     z-index: 2;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .cinematic-title {
@@ -548,79 +562,6 @@ nav {
     border-bottom-color: var(--soft-red);
 }
 
-/* Global Audio Player */
-#audio-player {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 1rem 4rem;
-    background: rgba(10, 10, 10, 0.85);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid #222;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    mix-blend-mode: normal;
-}
-
-.player-info {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-
-.track-name {
-    font-family: var(--font-heading);
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.track-status {
-    color: var(--soft-red);
-    font-size: 1rem;
-}
-
-.player-controls {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    flex: 0.5;
-}
-
-.ctrl-btn {
-    background: transparent;
-    border: none;
-    color: var(--silver);
-    font-family: var(--font-heading);
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.ctrl-btn:hover {
-    color: #fff;
-}
-
-.progress-bar-container {
-    flex: 1;
-    height: 2px;
-    background: #333;
-    position: relative;
-    cursor: pointer;
-}
-
-.progress-bar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 30%; /* simulated progress */
-    background: var(--faded-white);
-    transition: width 0.1s linear;
-}
-
 /* Scroll Reveals */
 .reveal {
     opacity: 0;
@@ -631,6 +572,37 @@ nav {
 .reveal.active {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Home Summary Blocks */
+.home-summary {
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    gap: 8rem;
+    text-align: left;
+}
+
+.summary-block .exhibit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid var(--charcoal);
+    padding-bottom: 1rem;
+    margin-bottom: 3rem;
+}
+
+.view-more {
+    color: var(--silver);
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.view-more:hover {
+    color: var(--soft-red);
 }
 
 /* Responsive */

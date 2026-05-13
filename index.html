@@ -16,6 +16,9 @@
     <div id="grain-overlay"></div>
     <div class="cursor-glow"></div>
 
+    <!-- Ambient Particles Background -->
+    <canvas id="particle-canvas"></canvas>
+
     <nav>
         <div class="logo"><a href="#" onclick="navTo('home')">SASI SCOTT</a></div>
         <div class="links">
@@ -36,11 +39,135 @@
                     <div class="polaroid">I'm fine.</div>
                 </div>
                 <h1 class="cinematic-title">
-                    <span class="glitch" data-text="EMOTIONAL">EMOTIONAL</span><br>
-                    <span class="outline-text">WRECKAGE</span>
+                    <span class="glitch" data-text="SASI">SASI</span><br>
+                    <span class="outline-text">SCOTT</span>
                 </h1>
-                <p class="handwritten hero-notes">Trying to hold it together through art.</p>
-                <div class="cta-scroll">Enter the Exhibit &darr;</div>
+                <p class="handwritten hero-notes">Gigging Musician & Multi-Instrumentalist.</p>
+                <div class="cta-scroll">Scroll &darr;</div>
+            </div>
+
+            <!-- Home Content Summaries -->
+            <div class="home-summary">
+                
+                <!-- About Me -->
+                <div class="summary-block reveal">
+                    <div class="exhibit-header">
+                        <h2>About Sasi</h2>
+                    </div>
+                    <div class="about-content" style="display: flex; flex-direction: column; gap: 2.5rem;">
+                        <!-- Intro Bio -->
+                        <div style="border-left: 2px solid var(--accent); padding-left: 1.5rem;">
+                            <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 1rem;">
+                                Sasi Scott is a gigging musician and multi-instrumentalist encompassing guitar, bass, vocals, and trumpet. Currently a Recording Arts major at Butler Tech School of the Arts, Sasi has extensive experience performing as a solo artist and with a band at venues like Music Collective Hamilton, Lori's Roadhouse, and Madison Live!
+                            </p>
+                            <p class="handwritten">Bringing live music to the stage.</p>
+                        </div>
+                        
+                        <!-- Resume Grid -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem;">
+                            
+                            <!-- Education & Honors -->
+                            <div>
+                                <h3 style="font-family: var(--font-heading); margin-bottom: 1rem; border-bottom: 1px solid var(--charcoal); padding-bottom: 0.5rem; text-transform: uppercase;">Education & Honors</h3>
+                                <ul style="list-style: none; color: var(--silver); line-height: 1.8;">
+                                    <li><strong>Butler Tech School of the Arts</strong> - Recording Arts Major (2024-)</li>
+                                    <li><strong>Miami University Middletown</strong> - 30+ CCP college credits earned, Dean's List</li>
+                                    <li><strong>National Honors Society</strong> & National Ed Equity Lab Honors Society</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Skills & Tools -->
+                            <div>
+                                <h3 style="font-family: var(--font-heading); margin-bottom: 1rem; border-bottom: 1px solid var(--charcoal); padding-bottom: 0.5rem; text-transform: uppercase;">Skills & Leadership</h3>
+                                <ul style="list-style: none; color: var(--silver); line-height: 1.8;">
+                                    <li>Logic Pro for music production</li>
+                                    <li>Reading and playing sheet music for musical pit (bass)</li>
+                                    <li>School of the Arts Student Ambassador (2024-2025)</li>
+                                    <li>HOBY Ohio West Ambassador (2024)</li>
+                                    <li>Social media marketing, Networking, & Team Leadership</li>
+                                </ul>
+                            </div>
+
+                            <!-- Extracurriculars -->
+                            <div>
+                                <h3 style="font-family: var(--font-heading); margin-bottom: 1rem; border-bottom: 1px solid var(--charcoal); padding-bottom: 0.5rem; text-transform: uppercase;">Experience & Ensembles</h3>
+                                <ul style="list-style: none; color: var(--silver); line-height: 1.8;">
+                                    <li>Over 8 Butler Tech School of the Arts theatrical productions</li>
+                                    <li>Middletown High School Jazz Band, Marching Band, & Show Choir</li>
+                                    <li>OMEA Honor Band & District 13 Solo and Ensemble</li>
+                                </ul>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Music Stats & Spotify -->
+                <div class="summary-block reveal">
+                    <div class="exhibit-header">
+                        <h2>Live Music Stats & Releases</h2>
+                    </div>
+                    
+                    <!-- Live Stats Container fetched from Netlify Function -->
+                    <div id="spotify-live-stats" class="stats-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; text-align: center; border-top: 1px solid var(--washed-blue); border-bottom: 1px solid var(--washed-blue); padding: 2rem 0; margin-bottom: 2rem;">
+                        <div>
+                            <h3 id="stat-followers" style="font-size: 3rem; font-family: var(--font-heading); color: var(--accent);">--</h3>
+                            <p style="color: var(--silver); text-transform: uppercase;">Spotify Followers</p>
+                        </div>
+                        <div style="border-left: 1px solid var(--washed-blue);">
+                            <h3 id="stat-popularity" style="font-size: 3rem; font-family: var(--font-heading); color: var(--accent);">--</h3>
+                            <p style="color: var(--silver); text-transform: uppercase;">Popularity Score</p>
+                        </div>
+                    </div>
+
+                    <!-- Auto-updating Spotify element -->
+                    <div style="text-align: center;">
+                        <iframe src="https://open.spotify.com/embed/artist/3WTWf9VjFi4QbSoHV52VGJ" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+                    </div>
+                </div>
+
+                <!-- Music Teaser -->
+                <div class="summary-block reveal">
+                    <div class="exhibit-header">
+                        <h2>Latest Release</h2>
+                        <a href="#" onclick="navTo('music')" class="view-more">View Archive &rarr;</a>
+                    </div>
+                    <div class="album-card exhibit-item" style="max-width: 400px;">
+                        <div class="album-art" style="background: #222"></div>
+                        <div class="album-info">
+                            <h3>FRAGMENTS</h3>
+                            <p class="handwritten">It felt like breaking.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tour Teaser -->
+                <div class="summary-block reveal">
+                    <div class="exhibit-header">
+                        <h2>Next Exhibition</h2>
+                        <a href="#" onclick="navTo('tour')" class="view-more">All Dates &rarr;</a>
+                    </div>
+                    <ul class="tour-list" style="margin-bottom: 2rem;">
+                        <li class="tour-date">
+                            <span class="date">NOV 12</span>
+                            <span class="city">LONDON, UK</span>
+                            <span class="venue">THE UNDERWORLD</span>
+                            <button class="tix-btn">SOLD OUT</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Gallery Teaser -->
+                <div class="summary-block reveal">
+                    <div class="exhibit-header">
+                        <h2>Visuals</h2>
+                        <a href="#" onclick="navTo('gallery')" class="view-more">Full Gallery &rarr;</a>
+                    </div>
+                    <div class="masonry" style="column-count: 2;">
+                        <div class="masonry-item" style="height: 250px; background: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=2667&auto=format&fit=crop') center/cover;"></div>
+                        <div class="masonry-item" style="height: 250px; background: url('https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=2000&auto=format&fit=crop') center/cover;"></div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -123,20 +250,6 @@
         </section>
 
     </main>
-
-    <!-- Global Audio Player -->
-    <div id="audio-player">
-        <div class="player-info">
-            <span class="track-name" id="current-track-name">Silver Noise - 01</span>
-            <span class="track-status handwritten">Playing...</span>
-        </div>
-        <div class="player-controls">
-            <button id="play-pause" class="ctrl-btn">PAUSE</button>
-            <div class="progress-bar-container">
-                <div class="progress-bar"></div>
-            </div>
-        </div>
-    </div>
 
     <!-- App Logic -->
     <script src="js/app.js"></script>

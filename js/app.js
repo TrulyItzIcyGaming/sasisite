@@ -1,4 +1,3 @@
-// Simple CSV parser for Google Sheets
 function parseCSV(str) {
     const lines = str.trim().split('\n');
     // Regex splits by comma but ignores commas inside quotes
@@ -29,6 +28,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("Failed to load CMS data:", error);
     }
 
+    // --- FETCH LIVE SPOTIFY STATS ---
+    try {
+        const statsResponse = await fetch('/.netlify/functions/spotify-stats');
+        if (statsResponse.ok) {
+            const stats = await statsResponse.json();
+            const followersEl = document.getElementById('stat-followers');
+            const popularityEl = document.getElementById('stat-popularity');
+            
+            if (followersEl) followersEl.textContent = stats.followers.toLocaleString();
+            if (popularityEl) popularityEl.textContent = stats.popularity + '/100';
+        }
+    } catch (error) {
+        console.error("Failed to load Spotify stats:", error);
+    }
+
     if (dataToLoad) {
         const musicContainer = document.getElementById('dynamic-music');
         const tourContainer = document.getElementById('dynamic-tour');
@@ -56,8 +70,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Render Tours
-        if(tourContainer && siteData.tours) {
-            siteData.tours.forEach((tour, i) => {
+        if(tourContainer && dataToLoad.tours) {
+            dataToLoad.tours.forEach((tour, i) => {
                 const li = document.createElement('li');
                 li.className = 'tour-date reveal';
                 li.style.transitionDelay = `${i * 0.1}s`;
@@ -72,8 +86,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Render Gallery
-        if(galleryContainer && siteData.gallery) {
-            siteData.gallery.forEach((img, i) => {
+        if(galleryContainer && dataToLoad.gallery) {
+            dataToLoad.gallery.forEach((img, i) => {
                 const item = document.createElement('div');
                 item.className = 'masonry-item reveal';
                 item.style.transitionDelay = `${(i % 3) * 0.1}s`;
@@ -129,34 +143,68 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    // Audio Player functionality (Simulated)
-    const playBtn = document.getElementById('play-pause');
-    const trackStatus = document.querySelector('.track-status');
-    const progressBar = document.querySelector('.progress-bar');
-    let isPlaying = true;
-    let progress = 30;
+    // --- PARTICLE SYSTEM ---
+    const canvas = document.getElementById('particle-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        let particles = [];
 
-    playBtn.addEventListener('click', () => {
-        isPlaying = !isPlaying;
-        if(isPlaying) {
-            playBtn.textContent = "PAUSE";
-            trackStatus.textContent = "Playing...";
-            trackStatus.style.opacity = 1;
-        } else {
-            playBtn.textContent = "PLAY";
-            trackStatus.textContent = "Paused";
-            trackStatus.style.opacity = 0.5;
-        }
-    });
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initParticles();
+        });
 
-    // Simulate progress bar moving
-    setInterval(() => {
-        if(isPlaying) {
-            progress += 0.1;
-            if(progress > 100) progress = 0;
-            progressBar.style.width = `${progress}%`;
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.color = Math.random() > 0.5 ? '#00d2ff' : '#cccccc';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > width) this.x = 0;
+                else if (this.x < 0) this.x = width;
+                if (this.y > height) this.y = 0;
+                else if (this.y < 0) this.y = height;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
-    }, 100);
+
+        function initParticles() {
+            particles = [];
+            let numParticles = (width * height) / 15000; // density
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+    }
 
     // Scroll Reveal functionality (Intersection Observer)
     const revealElements = document.querySelectorAll('.reveal');
