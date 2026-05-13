@@ -354,46 +354,106 @@ nav {
     letter-spacing: -0.5px;
 }
 
-/* Band Scrapbook */
-.scrapbook-container {
-    position: relative;
-    height: 80vh;
+/* Band / Scrapbook */
+.band-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-.chaos-title {
+.band-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.band-card {
+    background: rgba(20,20,20,0.65);
+    border: 1px solid #444;
+    padding: 2rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+
+.band-card h3 {
     font-family: var(--font-heading);
-    font-size: 6rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.1;
-    white-space: nowrap;
+    font-size: 1.8rem;
+    letter-spacing: -0.5px;
+    margin-bottom: 1rem;
 }
 
+.band-copy {
+    color: var(--silver);
+    font-size: 1.15rem;
+    line-height: 1.75;
+}
+
+.band-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin-top: 1.5rem;
+}
+
+.band-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(0, 210, 255, 0.4);
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.band-link:hover {
+    transform: translateY(-2px);
+    background: rgba(0, 210, 255, 0.08);
+}
+
+.band-link.subtle {
+    color: var(--silver);
+    border-color: rgba(108, 117, 125, 0.35);
+}
+
+.band-scrapbook-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+/* Override scrapbook tiles to be normal-flow tiles (not absolute-position cards) */
 .scrapbook-item {
-    position: absolute;
+    position: relative;
     padding: 10px;
     background: rgba(20,20,20,0.9);
     border: 1px solid #444;
     box-shadow: 10px 10px 30px rgba(0,0,0,0.9);
-    transition: z-index 0s, transform 0.3s;
+    transition: transform 0.3s ease;
 }
 
 .scrapbook-item:hover {
-    z-index: 100;
-    transform: scale(1.1) rotate(0deg) !important;
+    transform: scale(1.06) rotate(0deg);
 }
 
+.band-scrapbook-tile {
+    transform: rotate(var(--tile-rot, -1deg));
+}
+
+.band-scrapbook-tile:nth-child(2) { --tile-rot: 1.5deg; }
+.band-scrapbook-tile:nth-child(3) { --tile-rot: -2deg; }
+
 .placeholder-img {
-    width: 250px;
-    height: 300px;
+    width: 100%;
+    height: 190px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #666;
-    margin-bottom: 1rem;
+    margin-bottom: 0.85rem;
     font-style: italic;
+    background: #222;
 }
 
 .tape-piece {
@@ -406,6 +466,7 @@ nav {
     background: rgba(255,255,255,0.15);
     backdrop-filter: blur(2px);
 }
+
 
 /* Journal */
 .diary-layout {
@@ -606,6 +667,11 @@ nav {
 }
 
 /* Responsive */
+@media (max-width: 900px) {
+    .band-grid { grid-template-columns: 1fr; }
+    .band-scrapbook-grid { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 768px) {
     .cinematic-title { font-size: 4rem; }
     nav { flex-direction: column; align-items: center; gap: 1rem; padding: 1rem; }
@@ -613,3 +679,4 @@ nav {
     .masonry { column-count: 1; }
     .view { padding: 120px 2rem 4rem 2rem; }
 }
+
