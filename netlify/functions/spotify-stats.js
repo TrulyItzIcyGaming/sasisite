@@ -23,6 +23,11 @@ exports.handler = async function(event, context) {
         });
         
         const tokenData = await tokenResponse.json();
+        
+        if (!tokenResponse.ok) {
+            throw new Error(`Token Error: ${tokenData.error_description || tokenData.error || 'Failed to authenticate'}`);
+        }
+
         const token = tokenData.access_token;
 
         // 2. Fetch the specific Artist's data
@@ -31,6 +36,10 @@ exports.handler = async function(event, context) {
         });
         
         const artistData = await artistResponse.json();
+
+        if (!artistResponse.ok) {
+            throw new Error(`Spotify API limits/error: ${artistData.error?.message || 'Failed to get artist data'}`);
+        }
 
         // 3. Return the data to our frontend
         return {
