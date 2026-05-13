@@ -1,34 +1,22 @@
 {
-  "music": [
-    {
-      "title": "FRAGMENTS",
-      "note": "It felt like breaking.",
-      "background": "#222"
-    },
-    {
-      "title": "SILVER NOISE",
-      "note": "Midnight sessions.",
-      "background": "#1a1a1a"
-    }
-  ],
   "tours": [
     {
-      "date": "NOV 12",
-      "city": "LONDON, UK",
-      "venue": "THE UNDERWORLD",
-      "ticketStatus": "SOLD OUT"
+      "date": "May 20th",
+      "city": "Some City",
+      "venue": "Some Venue",
+      "ticketStatus": "So Not Available"
     },
     {
-      "date": "NOV 14",
-      "city": "BERLIN, DE",
-      "venue": "SO36",
-      "ticketStatus": "TICKETS"
+      "date": "May 21th",
+      "city": "Some City 2",
+      "venue": "Some Venue 2",
+      "ticketStatus": "So Not Available 2"
     },
     {
-      "date": "NOV 16",
-      "city": "PARIS, FR",
-      "venue": "LA MACHINE",
-      "ticketStatus": "TICKETS"
+      "date": "May 22th",
+      "city": "Some City 3",
+      "venue": "Some Venue 3",
+      "ticketStatus": "So Not Available 3"
     }
   ],
   "gallery": [
