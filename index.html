@@ -132,11 +132,11 @@
                         <h2>Latest Release</h2>
                         <a href="#" onclick="navTo('music')" class="view-more">View Archive &rarr;</a>
                     </div>
-                    <div class="album-card exhibit-item" style="max-width: 400px;">
-                        <div class="album-art" style="background: #222"></div>
+                    <div id="home-latest-release" class="album-card exhibit-item" style="max-width: 400px;">
+                        <div id="home-latest-release-art" class="album-art" style="background: #222"></div>
                         <div class="album-info">
-                            <h3>FRAGMENTS</h3>
-                            <p class="handwritten">It felt like breaking.</p>
+                            <h3 id="home-latest-release-title">—</h3>
+                            <p id="home-latest-release-note" class="handwritten">—</p>
                         </div>
                     </div>
                 </div>
@@ -148,11 +148,11 @@
                         <a href="#" onclick="navTo('tour')" class="view-more">All Dates &rarr;</a>
                     </div>
                     <ul class="tour-list" style="margin-bottom: 2rem;">
-                        <li class="tour-date">
-                            <span class="date">NOV 12</span>
-                            <span class="city">LONDON, UK</span>
-                            <span class="venue">THE UNDERWORLD</span>
-                            <button class="tix-btn">SOLD OUT</button>
+                        <li id="home-next-exhibition" class="tour-date">
+                            <span id="home-next-exhibition-date" class="date">—</span>
+                            <span id="home-next-exhibition-city" class="city">—</span>
+                            <span id="home-next-exhibition-venue" class="venue">—</span>
+                            <button id="home-next-exhibition-ticket" class="tix-btn">—</button>
                         </li>
                     </ul>
                 </div>
@@ -163,10 +163,7 @@
                         <h2>Visuals</h2>
                         <a href="#" onclick="navTo('gallery')" class="view-more">Full Gallery &rarr;</a>
                     </div>
-                    <div class="masonry" style="column-count: 2;">
-                        <div class="masonry-item" style="height: 250px; background: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=2667&auto=format&fit=crop') center/cover;"></div>
-                        <div class="masonry-item" style="height: 250px; background: url('https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=2000&auto=format&fit=crop') center/cover;"></div>
-                    </div>
+                    <div id="home-visuals" class="masonry" style="column-count: 2;"></div>
                 </div>
             </div>
         </section>

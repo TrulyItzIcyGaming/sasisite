@@ -28,6 +28,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("Failed to load CMS data:", error);
     }
 
+    // Home teaser elements
+    const homeLatestReleaseTitleEl = document.getElementById('home-latest-release-title');
+    const homeLatestReleaseNoteEl = document.getElementById('home-latest-release-note');
+    const homeLatestReleaseArtEl = document.getElementById('home-latest-release-art');
+
+    const homeNextExhibitionDateEl = document.getElementById('home-next-exhibition-date');
+    const homeNextExhibitionCityEl = document.getElementById('home-next-exhibition-city');
+    const homeNextExhibitionVenueEl = document.getElementById('home-next-exhibition-venue');
+    const homeNextExhibitionTicketEl = document.getElementById('home-next-exhibition-ticket');
+
+    const homeVisualsContainer = document.getElementById('home-visuals');
+
     // --- FETCH LIVE SPOTIFY STATS ---
     try {
         const statsResponse = await fetch('/.netlify/functions/spotify-stats');
@@ -35,9 +47,29 @@ document.addEventListener('DOMContentLoaded', async () => {
             const stats = await statsResponse.json();
             const followersEl = document.getElementById('stat-followers');
             const listenersEl = document.getElementById('stat-listeners');
-            
+
             if (followersEl) followersEl.textContent = stats.followers.toLocaleString();
             if (listenersEl) listenersEl.textContent = stats.listeners.toLocaleString();
+
+            // Render Latest Release teaser from Spotify releases
+            if (homeLatestReleaseTitleEl && homeLatestReleaseNoteEl && homeLatestReleaseArtEl) {
+                const releases = Array.isArray(stats.releases) ? stats.releases : [];
+                if (releases.length > 0) {
+                    // newest first by release_date
+                    const newest = releases
+                        .filter(r => r && r.release_date)
+                        .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))[0] || releases[0];
+
+                    homeLatestReleaseTitleEl.textContent = newest.title || 'Latest Release';
+                    // if Spotify doesn't provide a note, fall back to a type + year line
+                    const year = newest.release_date ? newest.release_date.split('-')[0] : '';
+                    const typeLabel = newest.type ? newest.type.toUpperCase() : '';
+                    homeLatestReleaseNoteEl.textContent = year || typeLabel ? `${typeLabel}${typeLabel && year ? ' • ' : ''}${year}` : 'New music is here.';
+                    if (newest.image) {
+                        homeLatestReleaseArtEl.style.background = `url('${newest.image}') center/cover`;
+                    }
+                }
+            }
 
             // RENDER DISCOGRAPHY RELEASES DIRECTLY FROM SPOTIFY API
             const musicContainer = document.getElementById('dynamic-music');
@@ -74,19 +106,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("Failed to load Spotify stats:", error);
     }
 
+    // Render from CMS JSON for tours + gallery + home teasers
     if (dataToLoad) {
-        const musicContainer = document.getElementById('dynamic-music');
         const tourContainer = document.getElementById('dynamic-tour');
         const galleryContainer = document.getElementById('dynamic-gallery');
         const currentTrack = document.getElementById('current-track-name');
 
-        if(currentTrack && dataToLoad.player) currentTrack.textContent = dataToLoad.player.trackName;
+        if (currentTrack && dataToLoad.player) currentTrack.textContent = dataToLoad.player.trackName;
 
-        // Note: Music is now dynamically handled via Spotify API directly in the stats fetch block above.
-        // If the Spotify API fails to load the releases, we could fall back to the CMS here if desired.
-
-        // Render Tours
-        if(tourContainer && dataToLoad.tours) {
+        // Render Tours (full page)
+        if (tourContainer && dataToLoad.tours) {
+            tourContainer.innerHTML = '';
             dataToLoad.tours.forEach((tour, i) => {
                 const li = document.createElement('li');
                 li.className = 'tour-date reveal';
@@ -101,8 +131,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
-        // Render Gallery
-        if(galleryContainer && dataToLoad.gallery) {
+        // Home: Next Exhibition teaser (use first upcoming)
+        if (
+            homeNextExhibitionDateEl &&
+            homeNextExhibitionCityEl &&
+            homeNextExhibitionVenueEl &&
+            homeNextExhibitionTicketEl &&
+            Array.isArray(dataToLoad.tours) &&
+            dataToLoad.tours.length > 0
+        ) {
+            // If dates are in "MON DD" format only (no year), preserve order from CMS.
+            const next = dataToLoad.tours[0];
+            homeNextExhibitionDateEl.textContent = next.date || '—';
+            homeNextExhibitionCityEl.textContent = next.city || '—';
+            homeNextExhibitionVenueEl.textContent = next.venue || '—';
+            homeNextExhibitionTicketEl.textContent = next.ticketStatus || '—';
+        }
+
+        // Render Gallery (full page)
+        if (galleryContainer && dataToLoad.gallery) {
+            galleryContainer.innerHTML = '';
             dataToLoad.gallery.forEach((img, i) => {
                 const item = document.createElement('div');
                 item.className = 'masonry-item reveal';
@@ -112,12 +160,27 @@ document.addEventListener('DOMContentLoaded', async () => {
                 galleryContainer.appendChild(item);
             });
         }
+
+        // Home: Visuals teaser
+        if (homeVisualsContainer && Array.isArray(dataToLoad.gallery) && dataToLoad.gallery.length > 0) {
+            homeVisualsContainer.innerHTML = '';
+            const teaserImages = dataToLoad.gallery.slice(0, 4);
+            teaserImages.forEach((img, i) => {
+                const item = document.createElement('div');
+                item.className = 'masonry-item reveal';
+                item.style.transitionDelay = `${(i % 3) * 0.1}s`;
+                item.style.height = img.height;
+                item.style.background = `url('${img.url}') center/cover`;
+                homeVisualsContainer.appendChild(item);
+            });
+        }
     }
 
     // --- INTERACTION LOGIC ---
     
     // Custom Cursor follower
     const cursorGlow = document.querySelector('.cursor-glow');
+
     
     document.addEventListener('mousemove', (e) => {
         cursorGlow.style.left = e.clientX + 'px';
