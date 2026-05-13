@@ -40,6 +40,10 @@ exports.handler = async function(event, context) {
         if (!artistResponse.ok) {
             throw new Error(`Spotify API limits/error: ${artistData.error?.message || 'Failed to get artist data'}`);
         }
+        
+        if (!artistData || !artistData.followers) {
+            throw new Error(`Spotify payload missing followers. Full payload: ${JSON.stringify(artistData)}`);
+        }
 
         // 3. Return the data to our frontend
         return {
