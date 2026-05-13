@@ -38,6 +38,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             if (followersEl) followersEl.textContent = stats.followers.toLocaleString();
             if (popularityEl) popularityEl.textContent = stats.popularity + '/100';
+        } else {
+            // IF IT FAILS, SHOW THE ERROR IN THE UI
+            const errorData = await statsResponse.json();
+            console.error("Spotify API Error Data:", errorData);
+            const followersEl = document.getElementById('stat-followers');
+            if (followersEl) {
+                followersEl.textContent = "ERR";
+                followersEl.style.fontSize = "1rem";
+                followersEl.innerText = errorData.error || "Unknown Error";
+            }
         }
     } catch (error) {
         console.error("Failed to load Spotify stats:", error);
