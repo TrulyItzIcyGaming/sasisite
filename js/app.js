@@ -34,10 +34,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (statsResponse.ok) {
             const stats = await statsResponse.json();
             const followersEl = document.getElementById('stat-followers');
-            const popularityEl = document.getElementById('stat-popularity');
+            const listenersEl = document.getElementById('stat-listeners');
             
             if (followersEl) followersEl.textContent = stats.followers.toLocaleString();
-            if (popularityEl) popularityEl.textContent = stats.popularity + '/100';
+            if (listenersEl) listenersEl.textContent = stats.listeners.toLocaleString();
+
+            // RENDER DISCOGRAPHY RELEASES DIRECTLY FROM SPOTIFY API
+            const musicContainer = document.getElementById('dynamic-music');
+            if (musicContainer && stats.releases && stats.releases.length > 0) {
+                musicContainer.innerHTML = ''; // clear out CMS
+                stats.releases.forEach((album, i) => {
+                    const card = document.createElement('div');
+                    card.className = 'album-card exhibit-item reveal active';
+                    card.style.transitionDelay = `${i * 0.1}s`;
+                    card.innerHTML = `
+                        <div class="album-art" style="background: url('${album.image}') center/cover"></div>
+                        <div class="album-info" style="display:flex; flex-direction:column; justify-content:center;">
+                            <h3 style="margin-bottom:0.5rem; color:var(--text);">${album.title}</h3>
+                            <p class="handwritten" style="color:var(--silver); font-size:1.1rem; margin-bottom:1rem;">${album.type.toUpperCase()} • ${album.release_date.split('-')[0]}</p>
+                            <a href="${album.url}" target="_blank" style="color:var(--accent); text-decoration:none; font-family:var(--font-heading); text-transform:uppercase; letter-spacing:2px; font-size:0.9rem;">Listen -></a>
+                        </div>
+                    `;
+                    musicContainer.appendChild(card);
+                });
+            }
+
         } else {
             // IF IT FAILS, SHOW THE ERROR IN THE UI
             const errorData = await statsResponse.json();
@@ -61,23 +82,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if(currentTrack && dataToLoad.player) currentTrack.textContent = dataToLoad.player.trackName;
 
-        // Render Music
-        if(musicContainer && dataToLoad.music) {
-            dataToLoad.music.forEach((album, i) => {
-                const card = document.createElement('div');
-                card.className = 'album-card exhibit-item reveal';
-                // Add basic delay based on index for staggered reveal
-                card.style.transitionDelay = `${i * 0.1}s`;
-                card.innerHTML = `
-                    <div class="album-art" style="background: ${album.background}"></div>
-                    <div class="album-info">
-                        <h3>${album.title}</h3>
-                        <p class="handwritten">${album.note}</p>
-                    </div>
-                `;
-                musicContainer.appendChild(card);
-            });
-        }
+        // Note: Music is now dynamically handled via Spotify API directly in the stats fetch block above.
+        // If the Spotify API fails to load the releases, we could fall back to the CMS here if desired.
 
         // Render Tours
         if(tourContainer && dataToLoad.tours) {

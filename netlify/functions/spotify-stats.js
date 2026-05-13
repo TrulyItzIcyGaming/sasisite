@@ -3,51 +3,71 @@ exports.handler = async function(event, context) {
     const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
     const artist_id = process.env.SPOTIFY_ARTIST_ID || '3WTWf9VjFi4QbSoHV52VGJ';
 
-    if (!client_id || !client_secret) {
-        return { 
-            statusCode: 500, 
-            body: JSON.stringify({ error: 'Missing Spotify credentials in environment variables.' }) 
-        };
-    }
-
     try {
-        // 1. Authenticate with Spotify (Client Credentials Flow)
-        const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                // Node 18+ has global btoa, but Buffer is safer in some serverless environments
-                'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
-            },
-            body: 'grant_type=client_credentials'
-        });
+        // --- 1. WEB SCRAPING FOR STATS ---
+        let listeners = 0;
+        let followers = 0;
         
-        const tokenData = await tokenResponse.json();
-        
-        if (!tokenResponse.ok) {
-            throw new Error(`Token Error: ${tokenData.error_description || tokenData.error || 'Failed to authenticate'}`);
+        try {
+            const htmlRes = await fetch(`https://open.spotify.com/artist/${artist_id}`);
+            const html = await htmlRes.text();
+            
+            // Extract Monthly Listeners from meta description
+            const listenerMatch = html.match(/([\d,]+)\s+monthly listeners/i);
+            if (listenerMatch) {
+                listeners = listenerMatch[1].replace(/,/g, '');
+            }
+            
+            // Extract Followers from inline hydration state JSON
+            const followerMatch = html.match(/"followers"\s*:\s*\{\s*"total"\s*:\s*(\d+)/i);
+            if (followerMatch) {
+                followers = followerMatch[1];
+            }
+        } catch (e) {
+            console.error("Scraping failed:", e);
         }
 
-        const token = tokenData.access_token;
+        // --- 2. API CALL FOR RELEASES ---
+        let releases = [];
+        if (client_id && client_secret) {
+            const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
+                },
+                body: 'grant_type=client_credentials'
+            });
+            
+            if (tokenResponse.ok) {
+                const tokenData = await tokenResponse.json();
+                const token = tokenData.access_token;
 
-        // 2. Fetch the specific Artist's data
-        const artistResponse = await fetch(`https://api.spotify.com/v1/artists/${artist_id}`, {
-            headers: { 'Authorization': 'Bearer ' + token }
-        });
-        
-        const artistData = await artistResponse.json();
-
-        if (!artistResponse.ok) {
-            throw new Error(`Spotify API limits/error: ${artistData.error?.message || 'Failed to get artist data'}`);
+                // Fetch latest albums/singles
+                const albumsResponse = await fetch(`https://api.spotify.com/v1/artists/${artist_id}/albums?include_groups=album,single&limit=4`, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                
+                if (albumsResponse.ok) {
+                    const albumsData = await albumsResponse.json();
+                    releases = albumsData.items.map(item => ({
+                        title: item.name,
+                        url: item.external_urls.spotify,
+                        image: item.images[0]?.url,
+                        release_date: item.release_date,
+                        type: item.album_type
+                    }));
+                }
+            }
         }
 
-        // 3. Return the data to our frontend (Default to 0 if Spotify omits these fields for new artists)
+        // 3. Return Combined Data
         return {
             statusCode: 200,
             body: JSON.stringify({
-                followers: artistData.followers?.total || 0,
-                popularity: artistData.popularity || 0,
-                genres: artistData.genres || []
+                listeners: parseInt(listeners) || 0,
+                followers: parseInt(followers) || 0,
+                releases: releases
             })
         };
     } catch (error) {
