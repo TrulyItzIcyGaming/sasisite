@@ -40,18 +40,14 @@ exports.handler = async function(event, context) {
         if (!artistResponse.ok) {
             throw new Error(`Spotify API limits/error: ${artistData.error?.message || 'Failed to get artist data'}`);
         }
-        
-        if (!artistData || !artistData.followers) {
-            throw new Error(`Spotify payload missing followers. Full payload: ${JSON.stringify(artistData)}`);
-        }
 
-        // 3. Return the data to our frontend
+        // 3. Return the data to our frontend (Default to 0 if Spotify omits these fields for new artists)
         return {
             statusCode: 200,
             body: JSON.stringify({
-                followers: artistData.followers.total,
-                popularity: artistData.popularity,
-                genres: artistData.genres
+                followers: artistData.followers?.total || 0,
+                popularity: artistData.popularity || 0,
+                genres: artistData.genres || []
             })
         };
     } catch (error) {
