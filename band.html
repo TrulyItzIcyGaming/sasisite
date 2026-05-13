@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GREEN FUZZ — Band</title>
+
+    <!-- TODO: Replace with your site’s shared CSS if you already have it; kept minimal here to match the existing style.css approach. -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;800&family=Nothing+You+Could+Do&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+    <div id="grain-overlay"></div>
+    <div class="cursor-glow"></div>
+    <canvas id="particle-canvas"></canvas>
+
+    <nav>
+        <div class="logo"><a href="#" onclick="navTo('home')">SASI SCOTT</a></div>
+        <div class="links">
+            <a href="#" onclick="navTo('music')">Music</a>
+            <a href="#" onclick="navTo('band')">Band</a>
+            <a href="#" onclick="navTo('tour')">Tour</a>
+            <a href="#" onclick="navTo('gallery')">Gallery</a>
+            <a href="#" onclick="navTo('contact')">Connect</a>
+        </div>
+    </nav>
+
+    <!-- Standalone band page: kept simple + editable placeholders -->
+    <main class="band-page" id="band-page">
+        <section class="band-hero section visible">
+            <div class="band-hero-grid">
+                <div class="band-hero-left">
+                    <h1 class="band-gv-vertical" data-text="GREEN">GREEN</h1>
+                </div>
+                <div class="band-hero-right">
+                    <h1 class="band-gv-horizontal glitch" data-text="FUZZ">FUZZ</h1>
+                    <div class="band-hero-meta">
+                        <p>EST. 2025 // MIDDLETOWN, OHIO</p>
+                        <p>STATUS: ACTIVE / DISTORTED</p>
+                    </div>
+                    <a class="band-hero-link" href="https://greenfuzzband.brrrbrrr.xyz" target="_blank" rel="noopener">
+                        Visit official site →
+                    </a>
+                </div>
+            </div>
+
+            <div class="band-marquee-strip" aria-hidden="true">
+                <div class="band-marquee-track">
+                    <span>GREEN FUZZ // EST. 2025 // MIDDLETOWN, OHIO // ACTIVE / DISTORTED // CATCH US LIVE // </span>
+                    <span>GREEN FUZZ // EST. 2025 // MIDDLETOWN, OHIO // ACTIVE / DISTORTED // CATCH US LIVE // </span>
+                    <span>GREEN FUZZ // EST. 2025 // MIDDLETOWN, OHIO // ACTIVE / DISTORTED // CATCH US LIVE // </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section visible" style="border-bottom:none;">
+            <div class="exhibit-header">
+                <h2>Band reference</h2>
+                <p>Solo comes first — this page just points back to the Green Fuzz universe.</p>
+            </div>
+
+            <div class="band-official-grid">
+                <div class="band-card block">
+                    <h3>Official link</h3>
+                    <p class="band-copy">
+                        This is the canonical hub for Green Fuzz.
+                        Swap this text if you want (credits, booking info, etc.).
+                    </p>
+                    <a class="band-link band-link-big" href="https://greenfuzzband.brrrbrrr.xyz" target="_blank" rel="noopener">
+                        https://greenfuzzband.brrrbrrr.xyz
+                    </a>
+                </div>
+
+                <div class="band-card block band-scrapbook" style="padding:0; overflow:hidden;">
+                    <div class="band-scrapbook-top">
+                        <h3 style="margin-bottom:1rem; padding:0 2rem;">Scrapbook tiles</h3>
+                        <p class="band-copy" style="padding:0 2rem 1.5rem; margin:0;">
+                            Replace placeholders with your images (use inline background or swap markup later).
+                        </p>
+                    </div>
+                    <div class="band-scrapbook-grid">
+                        <div class="scrapbook-item band-scrapbook-tile">
+                            <div class="tape-piece"></div>
+                            <div class="placeholder-img" style="background:#222;">[ Rehearsal Photo ]</div>
+                            <p class="handwritten">3 AM in London</p>
+                        </div>
+                        <div class="scrapbook-item band-scrapbook-tile">
+                            <div class="tape-piece"></div>
+                            <div class="placeholder-img" style="background:#333;">[ Stage Dive ]</div>
+                            <p class="handwritten">Everything hurts</p>
+                        </div>
+                        <div class="scrapbook-item band-scrapbook-tile">
+                            <div class="tape-piece"></div>
+                            <div class="placeholder-img" style="background:#1f1f1f;">[ Poster / Promo ]</div>
+                            <p class="handwritten">Green Fuzz energy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/app.js"></script>
+    <script>
+        function navTo(pageId){
+            // keep navbar consistent with the SPA routing in index.html
+            if (pageId === 'home') window.location.href = '/';
+            else if (pageId === 'music') window.location.href = '/#music';
+            else if (pageId === 'band') window.location.href = '/#band';
+            else if (pageId === 'tour') window.location.href = '/#tour';
+            else if (pageId === 'gallery') window.location.href = '/#gallery';
+            else if (pageId === 'contact') window.location.href = '/#contact';
+            else window.location.href = '/';
+        }
+    </script>
+
+    <style>
+        /* Page-specific extras (so we don’t disturb existing site styling too much) */
+        .band-page { padding-top: 110px; }
+        .band-hero { padding: 6rem 4rem 2rem; }
+        .band-hero-grid { display:grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items:center; }
+        .band-gv-vertical { font-family: var(--font-heading); font-size: 7rem; letter-spacing: -6px; opacity: 0.95; }
+        .band-gv-vertical{ writing-mode: vertical-rl; transform: rotate(180deg); display:inline-block; }
+        .band-gv-horizontal { font-family: var(--font-heading); font-size: 7rem; letter-spacing: -6px; }
+        .band-hero-right { display:flex; flex-direction:column; gap: 1.5rem; }
+        .band-hero-meta p { color: var(--silver); font-style: italic; margin-top:0.25rem; }
+        .band-hero-link { color: var(--accent); font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 2px; font-weight: 800; text-decoration:none; }
+        .band-marquee-strip{ margin-top: 3rem; border-top: 1px solid var(--washed-blue); border-bottom: 1px solid var(--washed-blue); overflow:hidden; }
+        .band-marquee-track{ display:flex; width:max-content; animation: band-marquee 16s linear infinite; gap: 2.5rem; padding: 1rem 0; }
+        .band-marquee-track span{ white-space:nowrap; text-transform:uppercase; letter-spacing:2px; color: var(--silver); font-size:0.9rem; }
+        @keyframes band-marquee{ from{ transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        .band-official-grid{ display:grid; grid-template-columns: 1fr 1.35fr; gap: 3rem; align-items:start; }
+        .band-card.block{ background: rgba(20,20,20,0.55); border: 1px solid #444; padding: 2rem; }
+        .band-link{ display:inline-block; margin-top: 1rem; }
+        .band-link-big{ border-radius: 999px; padding: 0.9rem 1.2rem; }
+
+        .band-scrapbook-top{ border-bottom: 1px solid #444; padding: 2rem 0 0; }
+        .band-scrapbook-grid{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:1.25rem; padding: 2rem; }
+
+        @media (max-width: 900px){
+            .band-hero { padding: 5rem 2rem 2rem; }
+            .band-hero-grid{ grid-template-columns: 1fr; gap:2rem; }
+            .band-gv-vertical{ writing-mode: horizontal-tb; transform:none; font-size:4.5rem; }
+            .band-gv-horizontal{ font-size:4.5rem; }
+            .band-official-grid{ grid-template-columns: 1fr; }
+            .band-scrapbook-grid{ grid-template-columns: 1fr; }
+        }
+    </style>
+</body>
+</html>
+
