@@ -40,72 +40,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const homeVisualsContainer = document.getElementById('home-visuals');
 
-    // --- FETCH LIVE SPOTIFY STATS ---
-    try {
-        const statsResponse = await fetch('/.netlify/functions/spotify-stats');
-        if (statsResponse.ok) {
-            const stats = await statsResponse.json();
-            const followersEl = document.getElementById('stat-followers');
-            const listenersEl = document.getElementById('stat-listeners');
-
-            if (followersEl) followersEl.textContent = stats.followers.toLocaleString();
-            if (listenersEl) listenersEl.textContent = stats.listeners.toLocaleString();
-
-            // Render Latest Release teaser from Spotify releases
-            if (homeLatestReleaseTitleEl && homeLatestReleaseNoteEl && homeLatestReleaseArtEl) {
-                const releases = Array.isArray(stats.releases) ? stats.releases : [];
-                if (releases.length > 0) {
-                    // newest first by release_date
-                    const newest = releases
-                        .filter(r => r && r.release_date)
-                        .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))[0] || releases[0];
-
-                    homeLatestReleaseTitleEl.textContent = newest.title || 'Latest Release';
-                    // if Spotify doesn't provide a note, fall back to a type + year line
-                    const year = newest.release_date ? newest.release_date.split('-')[0] : '';
-                    const typeLabel = newest.type ? newest.type.toUpperCase() : '';
-                    homeLatestReleaseNoteEl.textContent = year || typeLabel ? `${typeLabel}${typeLabel && year ? ' • ' : ''}${year}` : 'New music is here.';
-                    if (newest.image) {
-                        homeLatestReleaseArtEl.style.background = `url('${newest.image}') center/cover`;
-                    }
-                }
-            }
-
-            // RENDER DISCOGRAPHY RELEASES DIRECTLY FROM SPOTIFY API
-            const musicContainer = document.getElementById('dynamic-music');
-            if (musicContainer && stats.releases && stats.releases.length > 0) {
-                musicContainer.innerHTML = ''; // clear out CMS
-                stats.releases.forEach((album, i) => {
-                    const card = document.createElement('div');
-                    card.className = 'album-card exhibit-item reveal active';
-                    card.style.transitionDelay = `${i * 0.1}s`;
-                    card.innerHTML = `
-                        <div class="album-art" style="background: url('${album.image}') center/cover"></div>
-                        <div class="album-info" style="display:flex; flex-direction:column; justify-content:center;">
-                            <h3 style="margin-bottom:0.5rem; color:var(--text);">${album.title}</h3>
-                            <p class="handwritten" style="color:var(--silver); font-size:1.1rem; margin-bottom:1rem;">${album.type.toUpperCase()} • ${album.release_date.split('-')[0]}</p>
-                            <a href="${album.url}" target="_blank" style="color:var(--accent); text-decoration:none; font-family:var(--font-heading); text-transform:uppercase; letter-spacing:2px; font-size:0.9rem;">Listen -></a>
-                        </div>
-                    `;
-                    musicContainer.appendChild(card);
-                });
-            }
-
-        } else {
-            // IF IT FAILS, SHOW THE ERROR IN THE UI
-            const errorData = await statsResponse.json();
-            console.error("Spotify API Error Data:", errorData);
-            const followersEl = document.getElementById('stat-followers');
-            if (followersEl) {
-                followersEl.textContent = "ERR";
-                followersEl.style.fontSize = "1rem";
-                followersEl.innerText = errorData.error || "Unknown Error";
-            }
-        }
-    } catch (error) {
-        console.error("Failed to load Spotify stats:", error);
-    }
-
     // Render from CMS JSON for tours + gallery + home teasers
     if (dataToLoad) {
         const tourContainer = document.getElementById('dynamic-tour');
@@ -243,8 +177,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 this.size = Math.random() * 2 + 0.5;
                 this.speedX = Math.random() * 1 - 0.5;
                 this.speedY = Math.random() * 1 - 0.5;
-                this.opacity = Math.random() * 0.5 + 0.1;
-                this.color = Math.random() > 0.5 ? '#00d2ff' : '#cccccc';
+                this.opacity = Math.random() * 0.55 + 0.15;
+                const warmColors = ['#d4a574', '#e8b8a3', '#f5f1e8'];
+                this.color = warmColors[Math.floor(Math.random() * warmColors.length)];
             }
             update() {
                 this.x += this.speedX;
@@ -266,7 +201,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         function initParticles() {
             particles = [];
-            let numParticles = (width * height) / 15000; // density
+            let numParticles = (width * height) / 20000; // density - reduced for mobile performance
             for (let i = 0; i < numParticles; i++) {
                 particles.push(new Particle());
             }

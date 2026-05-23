@@ -678,5 +678,46 @@ nav {
     .tour-date { flex-direction: column; gap: 1rem; text-align: center; }
     .masonry { column-count: 1; }
     .view { padding: 120px 2rem 4rem 2rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .minimal-form input, .minimal-form textarea { padding: 0.75rem 0; min-height: 44px; }
+    .tix-btn { padding: 0.75rem 1.5rem; min-height: 44px; }
+    .band-link { padding: 1rem 1.5rem; min-height: 44px; }
+}
+
+@media (max-width: 480px) {
+    #grain-overlay { 
+        opacity: 0.02; 
+        background-attachment: fixed; 
+    }
+    .cinematic-title { font-size: 2.5rem; }
+    .outline-text { font-size: 2.5rem; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.2rem; }
+    nav { padding: 0.75rem; }
+    nav .logo { font-size: 1rem; }
+    nav .links { gap: 0.5rem; font-size: 0.9rem; }
+    .view { padding: 100px 1.5rem 2rem 1.5rem; }
+    .hero-container { padding-top: 2rem; }
+    .cta-scroll { font-size: 0.9rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .contact-container { padding-top: 2rem; }
+    .minimal-form { gap: 1rem; }
+    .minimal-form input, .minimal-form textarea { padding: 0.75rem 0; min-height: 48px; font-size: 16px; }
+    .tix-btn { padding: 0.75rem 1rem; min-height: 48px; font-size: 0.85rem; }
+    .band-link { padding: 1rem 1rem; min-height: 48px; font-size: 0.85rem; }
+    .band-link-big { padding: 1rem 1rem; min-height: 48px; }
+    .band-hero-grid { flex-direction: column; gap: 2rem; }
+    .band-hero-left { font-size: 1.5rem; }
+    .band-hero-right { font-size: 1rem; }
+    .band-gv-vertical, .band-gv-horizontal { font-size: 2rem; }
+    .band-marquee-strip { font-size: 0.85rem; }
+    .band-scrapbook-grid { gap: 1rem; }
+    .placeholder-img { height: 150px; }
+    .diary-page { padding: 2rem; }
+    .masonry { column-count: 1; column-gap: 1rem; }
+    .masonry-item { margin-bottom: 1rem; }
+    .tour-list { padding: 0; }
+    .tour-date { padding: 1.5rem 0; }
 }
 
